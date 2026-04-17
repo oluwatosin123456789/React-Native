@@ -14,25 +14,10 @@ import {
 } from "react-native";
 
 import { LinearGradient } from "expo-linear-gradient";
-// LinearGradient = gives us gradient backgrounds.
-// In CSS you'd write: background: linear-gradient(...)
-// In React Native, there's no CSS gradients. You need this component.
-
 import { Ionicons } from "@expo/vector-icons";
-// Ionicons = free icons that come with Expo.
-// Like FontAwesome but built into Expo. No npm install needed.
-
-// ============================================================
-// STEP 2: THE COMPONENT
-// ============================================================
-// Same as React. It's just a function that returns JSX.
-// In Next.js: export default function Page() { ... }
-// In React Native: export default function LoginScreen() { ... }
-// Literally the same thing.
 
 export default function LoginScreen() {
-  // STEP 3: STATE
-  // Same useState you know from React. Zero difference.
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
