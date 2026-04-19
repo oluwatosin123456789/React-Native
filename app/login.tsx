@@ -24,63 +24,27 @@ export default function LoginScreen() {
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
 
-  // ============================================================
-  // STEP 4: THE JSX (what gets rendered on screen)
-  // ============================================================
-  // In React/Next.js you return HTML tags: <div>, <h1>, <input>
-  // In React Native you return RN components: <View>, <Text>, <TextInput>
-  // That's the ONLY difference. The structure is identical.
-
   return (
-    // --- THE OUTERMOST WRAPPER ---
-    // LinearGradient = a View with a gradient background.
-    // colors = array of colors for the gradient (top to bottom)
-    // style={styles.container} = we apply styles. Explained below.
+
     <LinearGradient
       colors={["#0a0a1a", "#1a0a2e", "#0a0a1a"]}
       style={styles.container}
     >
-      {/* Make the status bar (time, battery) white text */}
       <StatusBar barStyle="light-content" />
 
-      {/* 
-        KeyboardAvoidingView: 
-        Remember — when the keyboard pops up, it pushes everything up.
-        behavior="padding" on iOS = adds padding below content
-        behavior="height" on Android = resizes the view
-      */}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardView}
       >
-        {/*
-          ScrollView: makes the whole page scrollable.
-          WHY? On small phones, your login form might be taller than the screen.
-          Without ScrollView, the bottom gets cut off and the user is stuck.
-          
-          contentContainerStyle = styles for the CONTENT INSIDE the scroll.
-          (not the scroll container itself, but what's inside it)
-          
-          keyboardShouldPersistTaps="handled" = 
-          "if I tap a button while the keyboard is open, 
-           register the tap AND close the keyboard"
-          Without this, the first tap just closes the keyboard and does nothing.
-        */}
+
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {/* ========================================== */}
-          {/* SECTION 1: THE LOGO / BRANDING AREA       */}
-          {/* ========================================== */}
+          
           <View style={styles.headerSection}>
-            {/* 
-              This is just a purple circle with an icon inside.
-              In web CSS you'd do: border-radius: 50%; 
-              In RN: borderRadius must be half of width/height.
-              width: 80, height: 80, borderRadius: 40 = circle
-            */}
+            
             <View style={styles.logoContainer}>
               <LinearGradient
                 colors={["#7c3aed", "#a855f7"]}
@@ -90,46 +54,19 @@ export default function LoginScreen() {
               </LinearGradient>
             </View>
 
-            {/* 
-              <Text> = Remember, ALL text must be in <Text>.
-              style={styles.title} = apply our styles.
-              
-              In React/Next.js: <h1 className="title">Welcome Back</h1>
-              In React Native:  <Text style={styles.title}>Welcome Back</Text>
-              
-              There's no <h1>, <h2>, <p>. It's ALL <Text>.
-              You control size/weight with styles, not tags.
-            */}
+            
             <Text style={styles.title}>Welcome Back</Text>
             <Text style={styles.subtitle}>Sign in to continue</Text>
           </View>
 
-          {/* ========================================== */}
-          {/* SECTION 2: THE FORM                       */}
-          {/* ========================================== */}
+          
           <View style={styles.formSection}>
-            {/* --- EMAIL INPUT --- */}
-            {/* 
-              We wrap each input in a View to add labels and styling.
-              
-              The "focused" state: when you tap the input, we add a 
-              glowing purple border. This is done by checking emailFocused
-              and conditionally adding a style.
-              
-              In CSS: input:focus { border-color: purple; }
-              In RN: There's no :focus pseudo-class.
-              You manually track focus with onFocus/onBlur + useState.
-            */}
+            
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Email</Text>
               <View
                 style={[
                   styles.inputWrapper,
-                  // ↓ This is like a conditional className.
-                  // In React: className={`input ${focused ? "focused" : ""}`}
-                  // In RN: style={[styles.base, condition && styles.extra]}
-                  // It merges the styles. If emailFocused is true,
-                  // it adds the purple border style on top.
                   emailFocused && styles.inputFocused,
                 ]}
               >
@@ -145,36 +82,22 @@ export default function LoginScreen() {
                   placeholderTextColor="#555"
                   value={email}
                   onChangeText={setEmail}
-                  // ↑ onChangeText = onChange in React, but simpler.
-                  // In React: onChange={(e) => setEmail(e.target.value)}
-                  // In RN:    onChangeText={setEmail}
-                  // It gives you the string directly. No e.target.value BS.
+                  
 
                   keyboardType="email-address"
-                  // ↑ This is a MOBILE-ONLY thing.
-                  // It tells the phone "show the email keyboard"
-                  // (the one with @ and .com buttons).
-                  // On web, you'd use <input type="email">
 
                   autoCapitalize="none"
-                  // ↑ Phones auto-capitalize the first letter.
-                  // Emails shouldn't be capitalized, so we turn it off.
 
                   autoCorrect={false}
-                  // ↑ Turn off autocorrect for email. 
-                  // You don't want the phone "correcting" an email address.
 
                   onFocus={() => setEmailFocused(true)}
                   onBlur={() => setEmailFocused(false)}
-                  // ↑ Manually track focus state.
-                  // onFocus = user tapped the input
-                  // onBlur = user tapped away from the input
+                  
                 />
               </View>
             </View>
 
-            {/* --- PASSWORD INPUT --- */}
-            {/* Same pattern as email, but with a show/hide toggle */}
+            
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Password</Text>
               <View
@@ -196,21 +119,13 @@ export default function LoginScreen() {
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
-                  // ↑ secureTextEntry = type="password" in HTML.
-                  // It shows dots (•••••) instead of text.
-                  // We toggle it with showPassword state.
 
                   onFocus={() => setPasswordFocused(true)}
                   onBlur={() => setPasswordFocused(false)}
                 />
-                {/* 
-                  The eye icon to show/hide password.
-                  TouchableOpacity = a pressable area that fades on press.
-                */}
+              
                 <TouchableOpacity
                   onPress={() => setShowPassword(!showPassword)}
-                  // ↑ onPress = onClick in React.
-                  // That's it. onClick → onPress. Done.
                   style={styles.eyeButton}
                 >
                   <Ionicons
@@ -222,37 +137,28 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            {/* --- FORGOT PASSWORD LINK --- */}
+            
             <TouchableOpacity style={styles.forgotButton}>
               <Text style={styles.forgotText}>Forgot Password?</Text>
             </TouchableOpacity>
 
-            {/* --- SIGN IN BUTTON --- */}
-            {/* 
-              In React/Next.js: <button className="btn">Sign In</button>
-              In React Native: There IS a <Button> but it's ugly and basic.
-              Everyone uses TouchableOpacity instead for custom buttons.
-            */}
+           
             <TouchableOpacity
               style={styles.signInButton}
-              activeOpacity={0.8}
-              // ↑ activeOpacity = how faded the button gets when pressed.
-              // 0.8 = slight fade. 0.2 = very faded. 1 = no fade at all.
-            >
+              activeOpacity={0.8} >
+
+              
               <LinearGradient
                 colors={["#7c3aed", "#a855f7"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                // ↑ start/end = direction of the gradient.
-                // {x:0, y:0} → {x:1, y:0} = left to right
-                // Default is top to bottom.
                 style={styles.signInGradient}
               >
                 <Text style={styles.signInText}>Sign In</Text>
               </LinearGradient>
             </TouchableOpacity>
 
-            {/* --- DIVIDER ("or continue with") --- */}
+            
             <View style={styles.dividerRow}>
               <View style={styles.dividerLine} />
               <Text style={styles.dividerText}>or continue with</Text>
@@ -288,35 +194,6 @@ export default function LoginScreen() {
   );
 }
 
-// ============================================================
-// STEP 5: STYLES (this is the "CSS" of React Native)
-// ============================================================
-//
-// KEY DIFFERENCES FROM CSS:
-//
-// 1. camelCase, not kebab-case:
-//    CSS:  background-color, font-size, border-radius
-//    RN:   backgroundColor, fontSize, borderRadius
-//
-// 2. No units. Everything is "density-independent pixels" (dp):
-//    CSS:  font-size: 16px; padding: 20px;
-//    RN:   fontSize: 16,    padding: 20
-//    (no "px", "rem", "em", "%"... mostly. Some things accept %)
-//
-// 3. Flexbox is the ONLY layout system:
-//    No CSS Grid. No float. No position: absolute (well, rarely).
-//    Flexbox, flexbox, flexbox. That's all you get.
-//
-// 4. Default flexDirection is "column" (opposite of web!):
-//    CSS:  flex items go LEFT → RIGHT by default
-//    RN:   flex items go TOP → BOTTOM by default
-//    If you want horizontal, add: flexDirection: "row"
-//
-// 5. Styles DON'T cascade/inherit:
-//    In CSS, a child inherits font-size from its parent.
-//    In RN, NOPE. Every component styles itself independently.
-//    Exception: <Text> inside <Text> does inherit.
-//
 
 const styles = StyleSheet.create({
   // --- LAYOUT ---
